@@ -6,7 +6,7 @@ import primitives.*;
 
 /**
  * Test program for the 1st stage
- * @author Moy Albo and Efrat Aharoni
+ * @author Moy Georgi and Efrat Aharoni
  */
 public final class Main {
 

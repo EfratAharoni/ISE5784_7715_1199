@@ -1,7 +1,7 @@
 package primitives;
 
 /** Util class is used for some internal utilities, e.g. controlling accuracy
- * @author Dan */
+ * */
 public final class Util {
    /** It is binary, equivalent to ~1/1,000,000,000,000 in decimal (12 digits) */
    private static final int ACCURACY = -40;
@@ -52,5 +52,7 @@ public final class Util {
    public static double random(double min, double max) {
       return Math.random() * (max - min) + min;
    }
+
+
 
 }

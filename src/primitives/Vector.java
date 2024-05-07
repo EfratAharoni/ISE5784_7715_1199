@@ -8,11 +8,10 @@ public class  Vector extends Point {
         }
     }
 
-    public Vector(Double3 double3) {
-        super(double3);
-        if (xyz.equals(Double3.ZERO)) {
-            throw new IllegalArgumentException("Vector Zero");
-        }
+    public Vector(Double3 xyz) {
+        super(xyz);
+        if (xyz.equals(Double3.ZERO))
+            throw new IllegalArgumentException("Vector can't be zero");
     }
 
     public Vector crossProduct(Vector other) {
