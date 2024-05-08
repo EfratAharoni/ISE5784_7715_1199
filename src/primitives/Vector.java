@@ -9,19 +9,23 @@
  */
 package primitives;
 
-public class Vector extends Point {
+import com.sun.source.tree.ReturnTree;
 
-    public Vector(double x, double y, double z) {
-        super(x, y, z);
+public class  Vector extends Point {
+    public Vector(double x, double y , double z ) {
+        super(x,y,z);
         if (xyz.equals(Double3.ZERO)) {
-            throw new IllegalArgumentException("Vector cannot be zero.");
+            throw new IllegalArgumentException("Vector Zero");
         }
     }
 
     public Vector(Double3 xyz) {
         super(xyz);
         if (xyz.equals(Double3.ZERO))
-            throw new IllegalArgumentException("Vector cannot be zero.");
+            throw new IllegalArgumentException("Vector can't be zero");
+    }
+    public Vector add(Vector v) {
+        return new Vector(xyz.add(v.xyz));
     }
 
     /**
@@ -49,12 +53,9 @@ public class Vector extends Point {
     }
 
     /**
-     * Calculates the dot product (scalar product) of this vector and another vector.
-     *
-     * The dot product of two vectors results in a scalar value representing the projection of one vector onto the other.
-     *
-     * @param other The other vector to perform the dot product with.
-     * @return The dot product (scalar value) of this vector and the other vector.
+     * dot product between two vectors (scalar product)
+     * @param other
+     * @return new vector
      */
     public double dotProduct(Vector other) {
         return other.xyz.d1 * xyz.d1 +
@@ -63,9 +64,7 @@ public class Vector extends Point {
     }
 
     /**
-     * Calculates the squared length of this vector.
-     *
-     * @return The squared length of this vector.
+     * @return the length Squared of vector
      */
     public double lengthSquared() {
         return xyz.d1 * xyz.d1 +
@@ -74,25 +73,26 @@ public class Vector extends Point {
     }
 
     /**
-     * Calculates the length (magnitude) of this vector.
-     *
-     * @return The length (magnitude) of this vector.
+     * @return the sqrt of length Squared (the length of vector)
      */
     public double length() {
         return Math.sqrt(lengthSquared());
     }
 
     /**
-     * Normalizes this vector to a unit vector (length of 1).
-     *
-     * @return A new Vector representing the normalized version of this vector.
-     * @throws ArithmeticException If the length of the vector is zero (division by zero).
+     * @return Normalized vector
      */
     public Vector normalize() {
         double len = length();
         if (len == 0)
-            throw new ArithmeticException("Cannot normalize a zero vector (division by zero).");
-        return new Vector(xyz.reduce(len));
+            throw new ArithmeticException("Divide by zero!");
+        return new Vector(xyz.reduce((len)));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Vector other)&& xyz.equals(other.xyz);
     }
 
     @Override

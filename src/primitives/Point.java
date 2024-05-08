@@ -1,20 +1,7 @@
-/**
- * Class representing a 3D point in space.
- *
- * @author Efrat and Moy
- */
 package primitives;
 
 public class Point {
-
-    /**
-     * The coordinates of the point (x, y, z).
-     */
     final protected Double3 xyz;
-
-    /**
-     * The origin point (0, 0, 0).
-     */
     public static final Point ZERO = new Point(Double3.ZERO);
 
     /**
@@ -34,7 +21,8 @@ public class Point {
      * @param xyz A Double3 object representing the coordinates (x, y, z).
      */
     public Point(Double3 xyz) {
-        this.xyz = xyz;
+
+        this.xyz= xyz;
     }
 
     /**
@@ -44,7 +32,7 @@ public class Point {
      * @return A new Vector representing the difference between this point and p1.
      */
     public Vector subtract(Point p1) {
-        return new Vector(xyz.subtract(p1.xyz));
+        return new Vector (xyz.subtract(p1.xyz));
     }
 
     /**
@@ -84,5 +72,11 @@ public class Point {
     @Override
     public String toString() {
         return "Point{" + "xyz=" + xyz + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Point other)&& xyz.equals(other.xyz);
     }
 }
