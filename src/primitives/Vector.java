@@ -1,19 +1,37 @@
+/**
+ * Class representing a vector in 3D space.
+ *
+ * A vector has a magnitude (length) and direction. This class inherits from the Point class
+ * since a vector can be represented by its starting point (origin) and its direction.
+ *
+ * @author Efrat and Moy
+ * @see Point
+ */
 package primitives;
 
-public class  Vector extends Point {
-    public Vector(double x, double y , double z ) {
-        super(x,y,z);
+public class Vector extends Point {
+
+    public Vector(double x, double y, double z) {
+        super(x, y, z);
         if (xyz.equals(Double3.ZERO)) {
-            throw new IllegalArgumentException("Vector Zero");
+            throw new IllegalArgumentException("Vector cannot be zero.");
         }
     }
 
     public Vector(Double3 xyz) {
         super(xyz);
         if (xyz.equals(Double3.ZERO))
-            throw new IllegalArgumentException("Vector can't be zero");
+            throw new IllegalArgumentException("Vector cannot be zero.");
     }
 
+    /**
+     * Calculates the cross product of this vector and another vector.
+     *
+     * The cross product of two vectors results in a new vector that is orthogonal (perpendicular) to both original vectors.
+     *
+     * @param other The other vector to perform the cross product with.
+     * @return A new Vector representing the cross product of this vector and the other vector.
+     */
     public Vector crossProduct(Vector other) {
         double ax = xyz.d1;
         double ay = xyz.d2;
@@ -31,9 +49,12 @@ public class  Vector extends Point {
     }
 
     /**
-     * dot product between two vectors (scalar product)
-     * @param other
-     * @return new vector
+     * Calculates the dot product (scalar product) of this vector and another vector.
+     *
+     * The dot product of two vectors results in a scalar value representing the projection of one vector onto the other.
+     *
+     * @param other The other vector to perform the dot product with.
+     * @return The dot product (scalar value) of this vector and the other vector.
      */
     public double dotProduct(Vector other) {
         return other.xyz.d1 * xyz.d1 +
@@ -42,7 +63,9 @@ public class  Vector extends Point {
     }
 
     /**
-     * @return the length Squared of vector
+     * Calculates the squared length of this vector.
+     *
+     * @return The squared length of this vector.
      */
     public double lengthSquared() {
         return xyz.d1 * xyz.d1 +
@@ -51,20 +74,25 @@ public class  Vector extends Point {
     }
 
     /**
-     * @return the sqrt of length Squared (the length of vector)
+     * Calculates the length (magnitude) of this vector.
+     *
+     * @return The length (magnitude) of this vector.
      */
     public double length() {
         return Math.sqrt(lengthSquared());
     }
 
     /**
-     * @return Normalized vector
+     * Normalizes this vector to a unit vector (length of 1).
+     *
+     * @return A new Vector representing the normalized version of this vector.
+     * @throws ArithmeticException If the length of the vector is zero (division by zero).
      */
     public Vector normalize() {
         double len = length();
         if (len == 0)
-            throw new ArithmeticException("Divide by zero!");
-        return new Vector(xyz.reduce((len)));
+            throw new ArithmeticException("Cannot normalize a zero vector (division by zero).");
+        return new Vector(xyz.reduce(len));
     }
 
     @Override

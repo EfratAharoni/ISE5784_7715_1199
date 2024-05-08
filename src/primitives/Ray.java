@@ -1,11 +1,32 @@
+/**
+ * Class representing a ray in 3D space.
+ *
+ * A ray is defined by a starting point (head) and a direction vector.
+ *
+ * @author Moy and Efrat
+ */
 package primitives;
 
 import java.util.Objects;
 
 public class Ray {
-    final Point head;
-    final Vector direction;
 
+    /**
+     * The starting point of the ray (head).
+     */
+    final public Point head;
+
+    /**
+     * The direction vector of the ray, normalized to unit length.
+     */
+    final public Vector direction;
+
+    /**
+     * Constructor for creating a ray.
+     *
+     * @param head The starting point of the ray.
+     * @param direction The direction vector of the ray. The direction vector is normalized internally.
+     */
     public Ray(Point head, Vector direction) {
         this.head = head;
         this.direction = direction.normalize();
@@ -27,3 +48,4 @@ public class Ray {
                 '}';
     }
 }
+
