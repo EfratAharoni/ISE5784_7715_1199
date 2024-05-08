@@ -1,5 +1,7 @@
 package primitives;
 
+import com.sun.source.tree.ReturnTree;
+
 public class  Vector extends Point {
     public Vector(double x, double y , double z ) {
         super(x,y,z);
@@ -12,6 +14,9 @@ public class  Vector extends Point {
         super(xyz);
         if (xyz.equals(Double3.ZERO))
             throw new IllegalArgumentException("Vector can't be zero");
+    }
+    public Vector add(Vector v) {
+        return new Vector(xyz.add(v.xyz));
     }
 
     public Vector crossProduct(Vector other) {
@@ -65,6 +70,12 @@ public class  Vector extends Point {
         if (len == 0)
             throw new ArithmeticException("Divide by zero!");
         return new Vector(xyz.reduce((len)));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Vector other)&& xyz.equals(other.xyz);
     }
 
     @Override
