@@ -1,4 +1,3 @@
-
 package geometries;
 
 import primitives.Ray;
@@ -16,7 +15,6 @@ public class Tube extends RadialGeometry {
      * axis ray of the tube
      */
     final protected Ray axisRay;
-
 
     /**
      * Constructor to initialize Tube based on an axis ray and the radius of the tube
@@ -44,7 +42,5 @@ public class Tube extends RadialGeometry {
          double t = this.axisRay.getDirection().dotProduct(point.subtract(this.axisRay.getHead()));
         return point.subtract(this.axisRay.getPoint(t)).normalize();
     }
-
-
 }
 

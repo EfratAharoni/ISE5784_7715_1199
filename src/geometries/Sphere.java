@@ -11,7 +11,6 @@ public class Sphere extends RadialGeometry {
      * center point of the sphere
      */
     final private Point center;
-
     /**
      * Constructor to initialize Sphere based on a center point and a radius of the sphere
      *
@@ -22,6 +21,6 @@ public class Sphere extends RadialGeometry {
         super(radius);
         this.center = center;
     }
-    }
+}
 
 

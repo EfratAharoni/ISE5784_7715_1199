@@ -19,7 +19,6 @@ public class  Vector extends Point {
         }
     }
 
-
     public Vector(Double3 xyz) {
         super(xyz);
         if (xyz.equals(Double3.ZERO))

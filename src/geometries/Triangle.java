@@ -10,7 +10,6 @@ package geometries;
 import primitives.Point;
 
 public class Triangle extends Polygon {
-
     /**
      * Constructor to initialize Triangle based on a normal vector and 3 points of the plane
      *

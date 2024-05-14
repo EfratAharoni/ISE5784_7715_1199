@@ -39,16 +39,6 @@ public abstract class RadialGeometry implements Geometry {
         this.radiusSquared = radius * radius;
     }
 
-    /**
-     * Inherited method from Geometry interface.
-     * Needs to be implemented by subclasses to provide specific normal vector calculation for their geometry.
-     *
-     * @param point The point on the surface of the geometry.
-     * @return The normal vector to the geometry at the given point. (implementation by subclass)
-     *
-     * @throws UnsupportedOperationException This method is not implemented in the abstract RadialGeometry class.
-     *         Subclasses must implement their own normal vector calculation logic.
-     */
     @Override
     public Vector getNormal(Point point) {
         throw new UnsupportedOperationException("getNormal is not implemented in RadialGeometry. Implement it in subclasses.");

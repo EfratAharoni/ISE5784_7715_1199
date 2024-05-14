@@ -27,5 +27,4 @@ class TriangleTest {
             assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 2 : i - 1]))),
                     "Triangle's normal is not orthogonal to one of the vectors of the plane");
     }
-
 }
