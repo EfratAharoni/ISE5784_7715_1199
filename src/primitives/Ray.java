@@ -8,6 +8,7 @@
 package primitives;
 
 import java.util.Objects;
+import static primitives.Util.isZero;
 
 public class Ray {
 
@@ -30,6 +31,18 @@ public class Ray {
     public Ray(Point head, Vector direction) {
         this.head = head;
         this.direction = direction.normalize();
+    }
+
+    public Vector getDirection() {
+        return direction;
+    }
+
+    public Point getHead() {
+        return head;
+    }
+
+    public Point getPoint(double t) {
+        return isZero(t) ? head : head.add(direction.scale(t));
     }
 
     @Override

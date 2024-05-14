@@ -1,37 +1,50 @@
-/**
- * Class representing a tube in 3D space.
- *
- * A tube is defined by a radius and a central axis represented by a ray.
- *
- * @author Efrat and Moy
- */
+
 package geometries;
 
 import primitives.Ray;
+import primitives.Point;
+import primitives.Vector;
 
-public class Tube {
-
+/**
+ * class Tube is a class representing a tube
+ * of Euclidean geometry in Cartesian 3-Dimensional coordinate system.
+ *
+ * @author Efrat and Moy
+ */
+public class Tube extends RadialGeometry {
     /**
-     * The radius of the tube.
+     * axis ray of the tube
      */
-    private final double radius;
+    final protected Ray axisRay;
+
 
     /**
-     * The ray representing the central axis of the tube.
-     */
-    private final Ray r;
-
-    /**
-     * Constructor for creating a tube object.
+     * Constructor to initialize Tube based on an axis ray and the radius of the tube
      *
-     * @param radius The radius of the tube.
-     * @param r The ray representing the central axis of the tube.
+     * @param axisRay axis ray of the tube
+     * @param radius  radius of the tube
      */
-    public Tube(double radius, Ray r) {
-        this.radius = radius;
-        this.r = r;
+    public Tube(Ray axisRay, double radius) {
+        super(radius);
+        this.axisRay = axisRay;
     }
 
-    // ... other methods specific to Tube ...
+    /**
+     * getter for the axis ray of the Tube
+     *
+     * @return axis ray of the tube
+     */
+    @SuppressWarnings("unused")
+    public Ray getAxisRay() {
+        return axisRay;
+    }
+
+    @Override
+    public Vector getNormal(Point point) {
+         double t = this.axisRay.getDirection().dotProduct(point.subtract(this.axisRay.getHead()));
+        return point.subtract(this.axisRay.getPoint(t)).normalize();
+    }
+
+
 }
 

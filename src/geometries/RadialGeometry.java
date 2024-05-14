@@ -7,23 +7,36 @@
  */
 package geometries;
 
+import static primitives.Util.alignZero;
 import primitives.Point;
 import primitives.Vector;
 
 public abstract class RadialGeometry implements Geometry {
-
     /**
-     * The radius of the radial geometry.
+     * radius of the geometry
      */
-    protected final double radius;
-
+    final protected double radius;
+    /**
+     * squared radius of the geometry
+     */
+    final protected double radiusSquared;
     /**
      * Constructor for creating a radial geometry object.
      *
      * @param radius The radius of the geometry.
      */
+
+    /**
+     * Constructor to initialize radialGeometry based on a radius
+     *
+     * @param radius radius of the geometry
+     * @throws IllegalArgumentException if radius &lt;= 0
+     */
     public RadialGeometry(double radius) {
+        if (alignZero(radius) <= 0)
+            throw new IllegalArgumentException("radius cannot be less than or equal to zero");
         this.radius = radius;
+        this.radiusSquared = radius * radius;
     }
 
     /**

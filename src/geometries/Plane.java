@@ -2,6 +2,8 @@ package geometries;
 
 import primitives.Point;
 import primitives.Vector;
+import primitives.*;
+import static primitives.Util.*;
 
 public class Plane implements Geometry {
     protected final Point p;
@@ -19,7 +21,7 @@ public class Plane implements Geometry {
 
     public Plane(Point p0, Vector normal) {
         this.p = p0;
-        this.normal = normal;
+        this.normal = normal.normalize();
     }
 
     /**
@@ -27,9 +29,11 @@ public class Plane implements Geometry {
      *
      * @return the normal
      */
+
+
     @Override
     public Vector getNormal(Point point) {
-        return null;
+        return normal;
     }
 
     public Vector getNormal() {

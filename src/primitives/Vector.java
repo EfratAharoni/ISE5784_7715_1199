@@ -19,6 +19,7 @@ public class  Vector extends Point {
         }
     }
 
+
     public Vector(Double3 xyz) {
         super(xyz);
         if (xyz.equals(Double3.ZERO))
@@ -26,6 +27,17 @@ public class  Vector extends Point {
     }
     public Vector add(Vector v) {
         return new Vector(xyz.add(v.xyz));
+    }
+
+    /**
+     * Scale (multiply) Vector by a number into a new Vector where each coordinate
+     * is multiplied by the number
+     *
+     * @param scalar right hand side operand for scaling
+     * @return result of scale
+     */
+    public Vector scale(double scalar) {
+        return new Vector(xyz.scale(scalar));
     }
 
     /**
