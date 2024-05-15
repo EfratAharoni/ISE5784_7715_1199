@@ -41,7 +41,8 @@ public abstract class RadialGeometry implements Geometry {
 
     @Override
     public Vector getNormal(Point point) {
-        throw new UnsupportedOperationException("getNormal is not implemented in RadialGeometry. Implement it in subclasses.");
+       return null;
+        //throw new UnsupportedOperationException("getNormal is not implemented in RadialGeometry. Implement it in subclasses.");
     }
 }
 

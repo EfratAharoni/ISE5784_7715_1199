@@ -11,6 +11,12 @@ public class Sphere extends RadialGeometry {
      * center point of the sphere
      */
     final private Point center;
+
+    @Override
+    public Vector getNormal(Point point) {
+        return point.subtract(center).normalize();
+    }
+
     /**
      * Constructor to initialize Sphere based on a center point and a radius of the sphere
      *
