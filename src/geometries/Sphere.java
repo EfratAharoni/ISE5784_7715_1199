@@ -6,7 +6,7 @@ import java.lang.Math;
 import primitives.*;
 import static primitives.Util.*;
 
-public class Sphere extends RadialGeometry {
+public class Sphere implements Geometry {
     /**
      * center point of the sphere
      */
@@ -24,8 +24,13 @@ public class Sphere extends RadialGeometry {
      * @param radius radius of the sphere
      */
     public Sphere(Point center, double radius) {
-        super(radius);
+        super();
         this.center = center;
+    }
+
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
     }
 }
 

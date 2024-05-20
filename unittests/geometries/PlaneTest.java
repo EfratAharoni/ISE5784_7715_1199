@@ -35,4 +35,7 @@ class PlaneTest {
         assertTrue(pln.getNormal().equals(result) || pln.getNormal().equals(result.scale(-1)), "getNormal() wrong result");
     }
 
+    @Test
+    void findIntersections() {
+    }
 }
