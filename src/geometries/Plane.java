@@ -39,6 +39,13 @@ public class Plane implements Geometry {
         return normal;
     }
 
+    /**
+     * Returns the reference point of the plane.
+     */
+    public Point getP() {
+        return p;
+    }
+
     @Override
     public List<Point> findIntersections(Ray ray) {
         return null;

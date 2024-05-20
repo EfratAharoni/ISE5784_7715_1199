@@ -25,6 +25,10 @@ public class Point {
         this.xyz= xyz;
     }
 
+    public Double3 getXyz() {
+        return xyz;
+    }
+
     /**
      * Calculates the vector resulting from subtracting another point from this point.
      *
