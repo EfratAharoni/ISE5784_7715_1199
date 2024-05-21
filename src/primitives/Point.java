@@ -83,4 +83,8 @@ public class Point {
         if (this == obj) return true;
         return (obj instanceof Point other)&& xyz.equals(other.xyz);
     }
+
+    public double getX() {
+        return xyz.d1;
+    }
 }
