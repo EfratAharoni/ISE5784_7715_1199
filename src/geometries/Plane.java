@@ -6,6 +6,8 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static primitives.Util.*;
+
 public class Plane implements Geometry {
     protected final Point p;
     protected final Vector normal;
@@ -48,6 +50,15 @@ public class Plane implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+        Vector v=ray.getDirection();
+        double nv=normal.dotProduct(v);
+        if (isZero(nv))
+            return null;
+        if(p.equals(ray.getHead()))
+            return null;
+        double t=alignZero((normal.dotProduct((p.subtract(ray.getHead()))))/(nv));
+        if(t>0)
+            return List.of(ray.getPoint(t));
         return null;
     }
 }
