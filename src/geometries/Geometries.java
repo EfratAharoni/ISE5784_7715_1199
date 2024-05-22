@@ -33,7 +33,6 @@ public class Geometries implements Intersectable{
                     intersections=new LinkedList<>();
                 intersections.addAll(currentIntersections);
             }
-
         }
         return intersections;
     }

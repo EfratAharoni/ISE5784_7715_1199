@@ -53,6 +53,5 @@ class RayTest {
         result = ray.getPoint(t);
         expected = Point.ZERO;
         assertEquals(expected, result, "The correct point is (0,0,0)");
-
     }
 }

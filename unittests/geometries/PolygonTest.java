@@ -17,7 +17,7 @@ import static primitives.Util.isZero;
  * @author Moy and Efrat
  */
 class PolygonTest {
-
+    private final Point  p05051 = new Point(0.5, 0.5, 1);
     /** Test method for {@link geometries.Polygon#getNormal(primitives.Point)}. */
     @Test
     void testgetNormal() {
@@ -48,30 +48,29 @@ class PolygonTest {
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray intersects the Polygon
-        List<Point> result = t.findIntersections(new Ray(new Point(0.5, 0.5, 1), new Vector(-0.5, -1, -1)));
+        List<Point> result = t.findIntersections(new Ray(p05051, new Vector(-0.5, -1, -1)));
         assertEquals(1, result.size(), "ERROR: findIntersections() did not return the right number of points");
         assertEquals(List.of(new Point(0.3, 0.1, 0.6)), result, "Incorrect intersection points");
 
         // TC02: Ray outside against edge
-        assertNull(t.findIntersections(new Ray(new Point(0.5, 0.5, 1), new Vector(-0.5, -2, -1))),
+        assertNull(t.findIntersections(new Ray(p05051, new Vector(-0.5, -2, -1))),
                 "ERROR: findIntersections() did not return null");
 
         // TC03: Ray outside against vertex
-        assertNull(t.findIntersections(new Ray(new Point(0.5, 0.5, 1), new Vector(1, -0.5, -1))),
+        assertNull(t.findIntersections(new Ray(p05051, new Vector(1, -0.5, -1))),
                 "ERROR: findIntersections() did not return null");
 
         // =============== Boundary Values Tests ==================
         // TC04: Ray on edge
-        assertNull(t.findIntersections(new Ray(new Point(0.5, 0.5, 1), new Vector(-0.5, -1.5, -1))),
+        assertNull(t.findIntersections(new Ray(p05051, new Vector(-0.5, -1.5, -1))),
                 "ERROR: findIntersections() did not return null");
 
         // TC05: Ray on vertex
-        assertNull(t.findIntersections(new Ray(new Point(0.5, 0.5, 1), new Vector(-0.5, 0.5, -1))),
+        assertNull(t.findIntersections(new Ray(p05051, new Vector(-0.5, 0.5, -1))),
                 "ERROR: findIntersections() did not return null");
 
         // TC06: Ray on edge's continuation
-        assertNull(t.findIntersections(new Ray(new Point(0.5, 0.5, 1), new Vector(-0.5, -1, 0.5))),
+        assertNull(t.findIntersections(new Ray(p05051, new Vector(-0.5, -1, 0.5))),
                 "ERROR: findIntersections() did not return null");
     }
-
 }
