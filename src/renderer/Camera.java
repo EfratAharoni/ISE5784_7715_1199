@@ -7,6 +7,9 @@ import primitives.Vector;
 
 import java.util.MissingResourceException;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 public class Camera implements Cloneable{
 
     private Point position;
@@ -53,7 +56,18 @@ public class Camera implements Cloneable{
     }
 
     public Ray constructRay(int nX, int nY, int j, int i){
-        return null;
+        Point pc = position.add(vTo.scale(distance));     // center of the view plane
+        double Ry = height/nY;                      // Ratio - pixel height
+        double Rx = width/nX;                       // Ratio - pixel width
+
+        double yJ = alignZero(-(i - (nY - 1) / 2d) * Ry);       // move pc Yi pixels
+        double xJ = alignZero((j - (nX - 1) / 2d) * Rx);        // move pc Xj pixels
+
+        Point PIJ = pc;
+        if(!isZero(xJ))  PIJ = PIJ.add(vRight.scale(xJ));
+        if(!isZero(yJ))  PIJ = PIJ.add(vUp.scale(yJ));
+
+        return new Ray(position, PIJ.subtract(position));
     }
 
     @Override
