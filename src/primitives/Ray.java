@@ -9,6 +9,7 @@ package primitives;
 
 import java.util.Objects;
 import static primitives.Util.isZero;
+import java.util.List;
 
 public class Ray {
 
@@ -60,5 +61,29 @@ public class Ray {
                 ", direction=" + direction +
                 '}';
     }
+
+    /**
+     * returns the closest point to the ray's origin point
+     *
+     * @param points points to check
+     * @return closest point
+     */
+    public Point findClosestPoint(List<Point> points) {
+        if (points.isEmpty())
+            return null;
+        Point closestPoint=points.get(0);
+        double minimumDistanceSquared=closestPoint.distanceSquared(head);
+        double distanceSquared;
+        for(Point point:points){
+            distanceSquared=point.distanceSquared(head);
+            if(distanceSquared<minimumDistanceSquared){
+                minimumDistanceSquared=distanceSquared;
+                closestPoint=point;
+            }
+        }
+        return closestPoint;
+    }
+
+
 }
 
