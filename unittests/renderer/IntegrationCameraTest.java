@@ -142,5 +142,4 @@ class IntegrationCameraTest {
         assertEquals(6, sum3,
                 "constructRay() and findIntersections() wrong result");
     }
-
 }
