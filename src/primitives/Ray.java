@@ -9,6 +9,7 @@ package primitives;
 
 import java.util.Objects;
 import static primitives.Util.isZero;
+import geometries.Intersectable.GeoPoint;
 
 public class Ray {
 
@@ -59,6 +60,23 @@ public class Ray {
                 "head=" + head +
                 ", direction=" + direction +
                 '}';
+    }
+
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints)
+    {
+        if (geoPoints.isEmpty())
+            return null;
+        GeoPoint closestPoint=geoPoints.get(0);
+        double minimumDistanceSquared=closestPoint.point.distanceSquared(head);
+        double distanceSquared;
+        for(GeoPoint geoPoint:geoPoints){
+            distanceSquared=geoPoint.point.distanceSquared(head);
+            if(distanceSquared<minimumDistanceSquared){
+                minimumDistanceSquared=distanceSquared;
+                closestPoint=geoPoint;
+            }
+        }
+        return closestPoint;
     }
 }
 
