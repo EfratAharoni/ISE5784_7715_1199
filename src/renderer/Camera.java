@@ -270,4 +270,5 @@ public class Camera implements Cloneable{
     private Color castRay(int i, int j) {
         return rayTracer.traceRay(constructRay(imageWriter.getNx(), imageWriter.getNy(), j, i));
     }
+
 }
