@@ -12,7 +12,6 @@ public class Geometries extends Intersectable{
     }
 
     public Geometries(Intersectable... geometries) {
-
         add(geometries);
     }
 
