@@ -60,7 +60,6 @@ public class Sphere extends RadialGeometry {
             return List.of(new GeoPoint(this,ray.getPoint(t1)));
         }
         return List.of(new GeoPoint(this,ray.getPoint(t1)),new GeoPoint(this, ray.getPoint(t2))); // if the ray intersects the sphere twice
-
     }
 }
 

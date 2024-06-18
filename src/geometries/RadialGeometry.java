@@ -11,7 +11,7 @@ import static primitives.Util.alignZero;
 import primitives.Point;
 import primitives.Vector;
 
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
     /**
      * radius of the geometry
      */
@@ -45,4 +45,5 @@ public abstract class RadialGeometry implements Geometry {
         //throw new UnsupportedOperationException("getNormal is not implemented in RadialGeometry. Implement it in subclasses.");
     }
 }
+
 
