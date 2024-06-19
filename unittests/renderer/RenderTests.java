@@ -24,10 +24,35 @@ public class RenderTests {
      */
     private final Camera.Builder camera = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(scene))
-            .setLocation(Point.ZERO).setDirection(new Vector(0,1,0),new Vector(0, 0, -1))
+            .setLocation(Point.ZERO).setDirection(new Vector(0,0,-1),new Vector(0, 1, 0))
             .setVpDistance(100d)
             .setVpSize(500d, 500d);
+    /**
+     * Produce a scene with basic 3D model - including individual lights of the
+     * bodies and render it into a png image with a grid
+     */
+    @Test
+    public void renderMultiColorTest() {
+        scene.geometries.add( // center
+                new Sphere(new Point(0, 0, -100), 50),
+                // up left
+                new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100))
+                        .setEmission(new Color(GREEN)),
+                // down left
+                new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100), new Point(-100, -100, -100))
+                        .setEmission(new Color(RED)),
+                // down right
+                new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))
+                        .setEmission(new Color(BLUE)));
+        scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.2, 0.2, 0.2))); //
 
+        camera
+                .setImageWriter(new ImageWriter("color render test", 1000, 1000))
+                .build()
+                .renderImage()
+                .printGrid(100, new Color(WHITE))
+                .writeToImage();
+    }
     /**
      * Produce a scene with basic 3D model and render it into a png image with a
      * grid
@@ -47,10 +72,10 @@ public class RenderTests {
         // right
         camera
                 .setImageWriter(new ImageWriter("base render test", 1000, 1000))
-                .build();
-        camera.renderImage();
-        camera.printGrid(100, new Color(YELLOW));
-        camera.writeToImage();
+                .build().renderImage()
+        .renderImage()
+        .printGrid(100, new Color(YELLOW))
+        .writeToImage();
     }
 
     /**
@@ -65,9 +90,9 @@ public class RenderTests {
 
         camera
                 .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
-                .build();
+                .build()
 
-        camera.printGrid(100, new Color(YELLOW));
-        camera.writeToImage();
+        .printGrid(100, new Color(YELLOW))
+        .writeToImage();
     }
 }

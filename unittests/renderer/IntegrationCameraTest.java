@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import scene.Scene;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ class IntegrationCameraTest {
      *Integration tests.
      * Testing camera combined with constructRay for sphere,plane and triangle
      */
-    private final Camera.Builder cameraBuilder = Camera.getBuilder().setDirection(new Vector(0,  1,0), new Vector(0, 0,-1)).setVpSize(3.0, 3.0);
+    private final Camera.Builder cameraBuilder = Camera.getBuilder().setDirection(new Vector(0,  0,-1), new Vector(0, -1,0)).setVpSize(3.0, 3.0).setImageWriter(new ImageWriter("test",1,1)).setRayTracer(new SimpleRayTracer(new Scene("test")));
     /**
      * Helper method for constructing ray and calculating the number of intersections
      * preventing needles repetitions
