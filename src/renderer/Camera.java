@@ -293,7 +293,7 @@ import java.util.MissingResourceException;
  * Camera class represents a camera in 3D space with position, direction, and view plane properties.
  * It provides functionality to construct rays through a view plane.
  *
- * @author Hadar Nagar & Elinoy Damari
+ * @author Efrat and Moy
  */
 public class Camera implements Cloneable {
 

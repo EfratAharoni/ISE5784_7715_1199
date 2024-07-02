@@ -26,4 +26,5 @@ public interface LightSource {
      * @return vector direction to light source
      */
     public Vector getL(Point p);
+    double getDistance(Point point);
 }

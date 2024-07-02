@@ -51,7 +51,7 @@ public abstract class Intersectable {
          * @param ray A method that receives a ray
          * @return a list of intersection points between the ray and geometry
          */
-        public List<Point> findIntersections(Ray ray) {
+        public final List<Point> findIntersections(Ray ray) {
             List<GeoPoint> geoList = findGeoIntersections(ray);
             return geoList == null ? null
                     : geoList.stream().map(gp -> gp.point).toList();

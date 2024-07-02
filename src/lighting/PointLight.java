@@ -12,7 +12,6 @@ public class PointLight extends Light implements LightSource
 
     private final  Point position;
     private double narrowBeam = 1;
-
     private double kc = 1;
     private double kl = 0;
     private double kq = 0;
@@ -34,7 +33,6 @@ public class PointLight extends Light implements LightSource
     {
         double dSquared = p.distanceSquared(position);
         double d = Math.sqrt(dSquared);
-
         return getIntensity().scale(1/(kc + kl * d + kq * dSquared));  // add int
     }
 
@@ -47,7 +45,6 @@ public class PointLight extends Light implements LightSource
         }
         return p.subtract(position).normalize();
     }
-
 
     /**
      * Sets the constant attenuation coefficient (kc) for the point light.
@@ -89,5 +86,10 @@ public class PointLight extends Light implements LightSource
     {
         this.narrowBeam = narrowBeam;
         return this;
+    }
+
+    @Override
+    public double getDistance(Point p) {
+        return position.distance(p);
     }
 }

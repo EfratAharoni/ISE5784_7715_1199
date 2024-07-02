@@ -220,23 +220,22 @@ public class LightsTests {
               .writeToImage();
    }
 
+
    @Test
    public void trianglesMultipleLights()
    {
       scene2.geometries.add(triangle1, triangle2);
 
       // Adding multiple light sources
-      scene2.lights.add(new DirectionalLight(new Color(400, 200, 200), new Vector(1, -1, -1)));
-      scene2.lights.add(new PointLight(new Color(200, 200, 400), new Point(-30, 30, -100))
+      scene2.lights.add(new DirectionalLight(new Color(400, 200, 200), new Vector(1, -1, -1)));//מקור אור חיצוני (שמש)
+      scene2.lights.add(new PointLight(new Color(200, 200, 400), new Point(-30, 30, -100))//תאורה נקודתית (מנורה)
               .setKl(0.001).setKq(0.0002));
-      scene2.lights.add(new SpotLight(new Color(400, 200, 0), new Point(30, 10, -100), new Vector(-2, -2, -2))
+      scene2.lights.add(new SpotLight(new Color(400, 200, 0), new Point(30, 10, -100), new Vector(-2, -2, -2))// נקודתית ( ליזר) תאורה נקודתית (ליזר)
               .setKl(0.001).setKq(0.0001));
 
       camera2.setImageWriter(new ImageWriter("trianglesMultipleLights", 500, 500))
               .build()
-              .renderImage()
+              .renderImage()//מיצר את התמונה
               .writeToImage();
    }
-
-
 }

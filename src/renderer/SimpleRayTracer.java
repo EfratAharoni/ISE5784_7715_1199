@@ -4,7 +4,6 @@ import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
-
 import java.util.List;
 
 /**
@@ -12,6 +11,7 @@ import java.util.List;
  */
 public class SimpleRayTracer extends RayTracerBase
 {
+    private static final double DELTA = 0.1;
 
     /**
      * Constructs a SimpleRayTracer with the specified scene.
@@ -68,7 +68,7 @@ public class SimpleRayTracer extends RayTracerBase
         Vector v = ray.getDirection();
         Vector n = intersection.geometry.getNormal(intersection.point);
         double nv = Util.alignZero(n.dotProduct(v));
-        if (nv == 0)
+        if (nv == 0) //כאשר המקור אור מתחת לגוף
             return Color.BLACK;
 
         int nShininess = intersection.geometry.getMaterial().nShininess;
@@ -81,7 +81,7 @@ public class SimpleRayTracer extends RayTracerBase
             Vector l = lightSource.getL(intersection.point);
             double nl = Util.alignZero(n.dotProduct(l));
 
-            if (nl * nv > 0) { // sign(nl) == sign(nv)
+            if (nl * nv > 0) { // sign(nl) == sign(nv) (בודק אם הם שווי סימן שזה אומר שהתאורה והמצלמה באותו כיוון
                 Color lightIntensity = lightSource.getIntensity(intersection.point);
                 color = color.add(calcDiffuse(kd, nl, lightIntensity),
                         calcSpecular(ks, l, n, nl, v, nShininess, lightIntensity));
@@ -127,6 +127,20 @@ public class SimpleRayTracer extends RayTracerBase
         return lightIntensity.scale(ks.scale(Math.pow(minusVR, nShininess)));
     }
 
+    private boolean unshaded(GeoPoint gp,LightSource light, Vector l, Vector n,double nl){
+        Vector lightDirection=l.scale(-1);
+        Vector deltaVector=n.scale(Util.alignZero(nl)<0?DELTA:-DELTA);
+        Point point=gp.point.add(deltaVector);
+        Ray lightRay=new Ray(point,lightDirection);
+        List<GeoPoint> intersections=scene.geometries.findGeoIntersections(lightRay);
+        if(intersections==null)
+            return true;
+        for(GeoPoint geoPoint:intersections){
+            if(geoPoint.point.distance(point)<light.getDistance(point))
+                return false;
+        }
+        return true;
+    }
 }
 
 
