@@ -7,16 +7,25 @@ package primitives;
  */
 public class Material
 {
-
     /**
-     * The diffuse reflection coefficient.
-     */
+    * The diffuse reflection coefficient.
+    */
     public Double3 kD = Double3.ZERO;
 
     /**
      * The specular reflection coefficient.
      */
     public Double3 kS = Double3.ZERO;
+
+    /**
+     * Promotes the assumption of transparency (מקדם הנחתה של שקיפות)
+     */
+    public Double3 kT = Double3.ZERO;
+
+    /**
+     * Promotes reflection attenuation (מקדם הנחתה של השתקפות)
+     */
+    public Double3 kR = Double3.ZERO;
 
     /**
      * The shininess of the material.
@@ -84,6 +93,50 @@ public class Material
     public Material setShininess(int nShininess)
     {
         this.nShininess = nShininess;
+        return this;
+    }
+
+    /**
+     * Sets the kT (transmittance coefficient) of the material.
+     *
+     * @param kT The new kT value to set.
+     * @return The Material object itself for method chaining.
+     */
+    public Material setKT(Double3 kT) {
+        this.kT = kT;
+        return this;
+    }
+
+    /**
+     * Sets the kR (reflectance coefficient) of the material.
+     *
+     * @param kR The new kR value to set.
+     * @return The Material object itself for method chaining.
+     */
+    public Material setKR(Double3 kR) {
+        this.kR = kR;
+        return this;
+    }
+
+    /**
+     * Sets the kT (transmittance coefficient) of the material.
+     *
+     * @param kT The new kT value to set.
+     * @return The Material object itself for method chaining.
+     */
+    public Material setKT(double kT) {
+        this.kT = new Double3(kT);
+        return this;
+    }
+
+    /**
+     * Sets the kR (reflectance coefficient) of the material.
+     *
+     * @param kR The new kR value to set.
+     * @return The Material object itself for method chaining.
+     */
+    public Material setKR(double kR) {
+        this.kR = new Double3(kR);
         return this;
     }
 }

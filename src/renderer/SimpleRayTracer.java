@@ -12,6 +12,9 @@ import java.util.List;
 public class SimpleRayTracer extends RayTracerBase
 {
     private static final double DELTA = 0.1;
+    private static final int MAX_CALC_COLOR_LEVEL = 10;
+    private static final double MIN_CALC_COLOR_K = 0.001;
+
 
     /**
      * Constructs a SimpleRayTracer with the specified scene.
@@ -54,6 +57,70 @@ public class SimpleRayTracer extends RayTracerBase
     // אם לא נמצאו נקודות חיתוך, היא מחזירה את צבע הרקע של הסצנה.
     // אחרת, היא מוצאת את הנקודה הקרובה ביותר לראש הקרן ומחשבת את הצבע של הנקודה הזו.
     //הפונקציה calcColor מחשבת את הצבע של נקודה בסצנה בהתבסס על תאורת הסביבה הקיימת ומחזירה את הצבע הזה.
+
+    /**
+     * Calculates the color at a given intersection point, considering local and global effects.
+     *
+     * @param gp The intersection point on a geometry.
+     * @param ray The ray intersecting the geometry.
+     * @param level The recursion level for global effects.
+     * @param k Coefficient vector for global effects.
+     * @return The computed color at the intersection point.
+     */
+    private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k) {
+        // Calculate ambient and local effects
+        Color color = scene.ambientLight.getIntensity().add(calcLocalEffects(gp, ray));
+
+        // If recursion level is 1, return the color with only local effects
+        if (level == 1) {
+            return color;
+        }
+
+        // Add global effects to the color
+        return color.add(calcGlobalEffects(gp, ray, level, k));
+    }
+
+    /**
+     * Calculates the global effects (refraction and reflection) at a given intersection point.
+     *
+     * @param gp The intersection point on a geometry.
+     * @param ray The ray intersecting the geometry.
+     * @param level The recursion level for global effects.
+     * @param k Coefficient vector for global effects.
+     * @return The computed color contribution from global effects.
+     */
+    private Color calcGlobalEffects(GeoPoint gp, Ray ray, int level, Double3 k) {
+        Material material = gp.geometry.getMaterial();
+
+        // Calculate refracted and reflected light contributions
+        return calcLocalEffect(constructRefractedRay(gp, ray), material.kT, level, k)
+                .add(calcLocalEffect(constructReflectedRay(gp, ray), material.kR, level, k));
+    }
+
+    /**
+     * Calculates the contribution of a specific global effect (reflection or refraction).
+     *
+     * @param ray The ray for the global effect (reflection or refraction).
+     * @param kX Coefficient vector for the specific effect (reflection or refraction).
+     * @param level The recursion level for global effects.
+     * @param k Coefficient vector for global effects.
+     * @return The computed color contribution from the specific global effect.
+     */
+    private Color calcGlobalEffect(Ray ray, Double3 kX, int level, Double3 k) {
+        // Calculate combined coefficient vector
+        Double3 kKx = kX.product(k);
+
+        // If combined coefficient is below threshold, return black (no contribution)
+        if (kKx.lowerThan(MIN_CALC_COLOR_K)) {
+            return Color.BLACK;
+        }
+
+        // Find closest intersection point
+        GeoPoint gp = scene.geometries.findClosestIntersection(ray);
+
+        // Calculate color contribution considering recursion
+        return (gp == null ? scene.backGround : calcColor(gp, ray, level - 1, kKx)).scale(kX);
+    }
 
     /**
      * Calculates the effect of different light sources on a point in the scene
