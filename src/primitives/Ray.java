@@ -14,16 +14,21 @@ import static primitives.Util.isZero;
 import geometries.Intersectable.GeoPoint;
 
 public class Ray {
-
     /**
      * The starting point of the ray (head).
      */
     final public Point head;
-
     /**
      * The direction vector of the ray, normalized to unit length.
      */
     final public Vector direction;
+    private static final double DELTA = 0.1;
+
+    public Ray(Point p, Vector v, Vector normalToP){
+        double res = v.dotProduct(normalToP);
+        head = Util.isZero(res) ? p : res > 0 ? p.add(normalToP.scale(DELTA)) : p.add(normalToP.scale(-DELTA));
+        direction=v.normalize();
+    }
 
     /**
      * Constructor for creating a ray.

@@ -56,4 +56,15 @@ public abstract class Intersectable {
             return geoList == null ? null
                     : geoList.stream().map(gp -> gp.point).toList();
         }
+
+    /**
+     * finds the closest intersection point to a given ray
+     *
+     * @param ray the given ray
+     * @return the point and its geometry, null if there is no such point
+     */
+    public GeoPoint findClosestIntersection(Ray ray) {
+        List<GeoPoint> intersections = findGeoIntersections(ray);
+        return intersections == null ? null : ray.findClosestGeoPoint(intersections);
+    }
 }

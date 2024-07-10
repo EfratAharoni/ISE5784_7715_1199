@@ -91,10 +91,19 @@ public class SimpleRayTracer extends RayTracerBase
      */
     private Color calcGlobalEffects(GeoPoint gp, Ray ray, int level, Double3 k) {
         Material material = gp.geometry.getMaterial();
-
         // Calculate refracted and reflected light contributions
-        return calcLocalEffect(constructRefractedRay(gp, ray), material.kT, level, k)
-                .add(calcLocalEffect(constructReflectedRay(gp, ray), material.kR, level, k));
+        return calcGlobalEffect(constructRefractedRay(gp, ray), material.kT, level, k)
+                .add(calcGlobalEffect(constructReflectedRay(gp, ray), material.kR, level, k));
+    }
+
+    private Ray constructReflectedRay(GeoPoint gp, Ray ray) {
+        Vector normal=gp.geometry.getNormal(gp.point);
+        return new Ray( gp.point, ray.getDirection().subtract(normal.scale(2*ray.getDirection().dotProduct(normal))), normal);
+    }
+
+    private Ray constructRefractedRay(GeoPoint gp, Ray ray) {
+        Vector normal=gp.geometry.getNormal(gp.point);
+        return new Ray( gp.point, ray.getDirection(), normal);
     }
 
     /**
