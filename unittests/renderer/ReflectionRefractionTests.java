@@ -26,7 +26,7 @@ public class ReflectionRefractionTests {
       .setDirection(Point.ZERO, Vector.Y)
       .setRayTracer(new SimpleRayTracer(scene));
 
-   /** Produce a picture of a sphere lighted by a spot light */
+   /** Produce a picture of a sphere lighted by a spot lights */
    @Test
    public void twoSpheres() {
       scene.geometries.add(
@@ -38,15 +38,15 @@ public class ReflectionRefractionTests {
                        new SpotLight(new Color(1000, 600, 0), new Point(-100, -100, 500), new Vector(-1, -1, -2))
                           .setKl(0.0004).setKq(0.0000006));
 
-      cameraBuilder.setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
-         .setVpSize(150, 150)
+      cameraBuilder.setLocation(new Point(0, 0, 1000)).setVpDistance(1000d)
+         .setVpSize(150d, 150d)
          .setImageWriter(new ImageWriter("refractionTwoSpheres", 500, 500))
          .build()
          .renderImage()
          .writeToImage();
    }
 
-   /** Produce a picture of a sphere lighted by a spot light */
+   /** Produce a picture of a sphere lighted by a spot lights */
    @Test
    public void twoSpheresOnMirrors() {
       scene.geometries.add(
@@ -67,15 +67,15 @@ public class ReflectionRefractionTests {
       scene.lights.add(new SpotLight(new Color(1020, 400, 400), new Point(-750, -750, -150), new Vector(-1, -1, -4))
          .setKl(0.00001).setKq(0.000005));
 
-      cameraBuilder.setLocation(new Point(0, 0, 10000)).setVpDistance(10000)
-         .setVpSize(2500, 2500)
+      cameraBuilder.setLocation(new Point(0, 0, 10000)).setVpDistance(10000d)
+         .setVpSize(2500d, 2500d)
          .setImageWriter(new ImageWriter("reflectionTwoSpheresMirrored", 500, 500))
          .build()
          .renderImage()
          .writeToImage();
    }
 
-   /** Produce a picture of a two triangles lighted by a spot light with a
+   /** Produce a picture of two triangles lighted by a spot lights with a
     * partially
     * transparent Sphere producing partial shadow */
    @Test
@@ -93,8 +93,8 @@ public class ReflectionRefractionTests {
                        new SpotLight(new Color(700, 400, 400), new Point(60, 50, 0), new Vector(0, 0, -1))
                           .setKl(4E-5).setKq(2E-7));
 
-      cameraBuilder.setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
-         .setVpSize(200, 200)
+      cameraBuilder.setLocation(new Point(0, 0, 1000)).setVpDistance(1000d)
+         .setVpSize(200d, 200d)
          .setImageWriter(new ImageWriter("refractionShadow", 600, 600))
          .build()
          .renderImage()
