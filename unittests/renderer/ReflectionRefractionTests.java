@@ -1,6 +1,3 @@
-/**
- * 
- */
 package renderer;
 
 import static java.awt.Color.*;
@@ -17,7 +14,7 @@ import scene.Scene;
 /** Tests for reflection and transparency functionality, test for partial
  * shadows
  * (with transparency)
- * @author dzilb */
+ * @author Moy & Efrat */
 public class ReflectionRefractionTests {
    /** Scene for the tests */
    private final Scene          scene         = new Scene("Test scene");

@@ -15,7 +15,6 @@ public class SimpleRayTracer extends RayTracerBase
     private static final int MAX_CALC_COLOR_LEVEL = 10;
     private static final double MIN_CALC_COLOR_K = 0.001;
 
-
     /**
      * Constructs a SimpleRayTracer with the specified scene.
      *
@@ -31,27 +30,26 @@ public class SimpleRayTracer extends RayTracerBase
      * @return the color at the point where the ray intersects with an object, or the background color if no intersection is found
      */
     @Override
-    public Color traceRay(Ray ray)
-    {
-        // Get all intersection points
-        var intersectionsLst = scene.geometries.findGeoIntersectionsHelper(ray);
-
-        // No intersection points
-        return intersectionsLst == null ? scene.background
-                // Return the color of the closest intersection point
-                : calcColor(ray.findClosestGeoPoint(intersectionsLst), ray);
+    public Color traceRay(Ray ray) {
+        // return traceRay(ray, NUM_SAMPLES);
+        GeoPoint intersectionPoint = scene.geometries.findClosestIntersection(ray);
+        return intersectionPoint == null
+                ? scene.backGround
+                : calcColor(intersectionPoint, ray);
+        //findGeoIntersections
     }
+
     /**
      * Calculates the color of a point in the scene.
      *
      * @param geoPoint The point on the geometry in the scene.
      * @param ray      The ray from the camera to the intersection.
      * @return The color of the point.
-     */
+     * */
     private Color calcColor(GeoPoint geoPoint, Ray ray)
     {
         return scene.ambientLight.getIntensity().add(geoPoint.geometry.getEmission())
-                .add(calcLocalEffects(geoPoint, ray));
+                .add(calcColor(intersection, ray, MAX_CALC_COLOR_LEVEL, Double3.ONE));
     }
     //הפונקציה traceRay מאתרת את נקודות החיתוך של הקרן עם הגאומטריות בסצנה.
     // אם לא נמצאו נקודות חיתוך, היא מחזירה את צבע הרקע של הסצנה.
@@ -69,13 +67,11 @@ public class SimpleRayTracer extends RayTracerBase
      */
     private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k) {
         // Calculate ambient and local effects
-        Color color = scene.ambientLight.getIntensity().add(calcLocalEffects(gp, ray));
-
+        Color color=calcLocalEffects(gp, ray);
         // If recursion level is 1, return the color with only local effects
         if (level == 1) {
             return color;
         }
-
         // Add global effects to the color
         return color.add(calcGlobalEffects(gp, ray, level, k));
     }
@@ -208,13 +204,11 @@ public class SimpleRayTracer extends RayTracerBase
         Vector deltaVector=n.scale(Util.alignZero(nl)<0?DELTA:-DELTA);
         Point point=gp.point.add(deltaVector);
         Ray lightRay=new Ray(point,lightDirection);
-        List<GeoPoint> intersections=scene.geometries.findGeoIntersections(lightRay);
-        if(intersections==null)
+        GeoPoint intersectionPoint=scene.geometries.findClosestIntersection(lightRay);
+        if(intersectionPoint==null)
             return true;
-        for(GeoPoint geoPoint:intersections){
-            if(geoPoint.point.distance(point)<light.getDistance(point))
-                return false;
-        }
+        if(intersectionPoint.point.distance(point)<light.getDistance(point))
+            return false;
         return true;
     }
 }

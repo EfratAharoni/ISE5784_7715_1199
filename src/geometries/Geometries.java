@@ -20,15 +20,29 @@ public class Geometries extends Intersectable{
         Collections.addAll(this.geometries , geometries);
     }
 
+//    @Override
+//    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+//        List<GeoPoint> intersections=null;
+//        for(Intersectable geometry: geometries){
+//            List<GeoPoint> currentIntersections=geometry.findGeoIntersections(ray);
+//            if(currentIntersections!=null){
+//                if(intersections==null)
+//                    intersections=new ArrayList<GeoPoint>();
+//                intersections.addAll(currentIntersections);
+//            }
+//        }
+//        return intersections;
+//    }
+
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        List<GeoPoint> intersections=null;
-        for(Intersectable geometry: geometries){
-            List<GeoPoint> currentIntersections=geometry.findGeoIntersections(ray);
-            if(currentIntersections!=null){
-                if(intersections==null)
-                    intersections=new ArrayList<GeoPoint>();
-                intersections.addAll(currentIntersections);
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        LinkedList<GeoPoint> intersections = null;
+        for (Intersectable shape : geometries) {
+            List<GeoPoint> shapeIntersections = shape.findGeoIntersectionsHelper(ray, maxDistance);
+            if (shapeIntersections != null) {
+                if (intersections == null)
+                    intersections = new LinkedList<>();
+                intersections.addAll(shapeIntersections);
             }
         }
         return intersections;
