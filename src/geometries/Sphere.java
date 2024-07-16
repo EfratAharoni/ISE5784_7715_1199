@@ -26,7 +26,7 @@ public class Sphere extends RadialGeometry {
      * @param center center of the sphere
      * @param radius radius of the sphere
      */
-    public Sphere(Point center, double radius) {
+    public Sphere(double radius, Point center) {
         super(radius);
         this.center = center;
     }

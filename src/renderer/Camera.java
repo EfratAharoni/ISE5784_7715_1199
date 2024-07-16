@@ -311,6 +311,9 @@ public class Camera implements Cloneable {
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
 
+    private int antiAliasingFactor = 1;
+
+
     /**
      * Private constructor to enforce the use of the builder for creating Camera instances.
      */
@@ -492,6 +495,11 @@ public class Camera implements Cloneable {
             return this;
         }
 
+        public Builder setAntiAliasingFactor(int antiAliasingFactor) {
+            camera.antiAliasingFactor = antiAliasingFactor;
+            return this;
+        }
+
         /**
          * Sets the size of the view plane.
          *
@@ -563,23 +571,14 @@ public class Camera implements Cloneable {
                 throw new MissingResourceException(missingRenderingData, cameraClass, "camera's width");
             if (Util.alignZero(camera.distance) <= 0)
                 throw new MissingResourceException(missingRenderingData, cameraClass, "camera's distance");
-
-
-
             camera.vRight = (camera.vTo.crossProduct(camera.vUp)).normalize();
-
             return camera.clone();
         }
 
-//
 
-//
-
-//
     }
-//
 
-//
+
     /**
      * Renders the image by casting rays through each pixel.
      */

@@ -14,6 +14,7 @@ public class SimpleRayTracer extends RayTracerBase
     private static final double DELTA = 0.1;
     private static final int MAX_CALC_COLOR_LEVEL = 10;
     private static final double MIN_CALC_COLOR_K = 0.001;
+    private static final int NUM_SAMPLES = 3;
 
     /**
      * Constructs a SimpleRayTracer with the specified scene.
@@ -24,6 +25,7 @@ public class SimpleRayTracer extends RayTracerBase
     {
         super(scene);
     }
+
     /**
      * Traces a ray through the scene and calculates the color at the point where the ray intersects with an object.
      * @param ray the ray to trace through the scene
@@ -34,21 +36,22 @@ public class SimpleRayTracer extends RayTracerBase
         // return traceRay(ray, NUM_SAMPLES);
         GeoPoint intersectionPoint = scene.geometries.findClosestIntersection(ray);
         return intersectionPoint == null
-                ? scene.backGround
+                ? scene.background
                 : calcColor(intersectionPoint, ray);
         //findGeoIntersections
     }
 
+
     /**
      * Calculates the color of a point in the scene.
      *
-     * @param geoPoint The point on the geometry in the scene.
+     * @param intersection The point on the geometry in the scene.
      * @param ray      The ray from the camera to the intersection.
      * @return The color of the point.
      * */
-    private Color calcColor(GeoPoint geoPoint, Ray ray)
+    private Color calcColor(GeoPoint intersection, Ray ray)
     {
-        return scene.ambientLight.getIntensity().add(geoPoint.geometry.getEmission())
+        return scene.ambientLight.getIntensity()
                 .add(calcColor(intersection, ray, MAX_CALC_COLOR_LEVEL, Double3.ONE));
     }
     //הפונקציה traceRay מאתרת את נקודות החיתוך של הקרן עם הגאומטריות בסצנה.
@@ -86,10 +89,9 @@ public class SimpleRayTracer extends RayTracerBase
      * @return The computed color contribution from global effects.
      */
     private Color calcGlobalEffects(GeoPoint gp, Ray ray, int level, Double3 k) {
-        Material material = gp.geometry.getMaterial();
-        // Calculate refracted and reflected light contributions
-        return calcGlobalEffect(constructRefractedRay(gp, ray), material.kT, level, k)
-                .add(calcGlobalEffect(constructReflectedRay(gp, ray), material.kR, level, k));
+        Material material=gp.geometry.getMaterial();
+        return calcGlobalEffect(constructRefractedRay(gp,ray),material.kT,level,k)
+                .add(calcGlobalEffect(constructReflectedRay(gp,ray),material.kR,level,k));
     }
 
     private Ray constructReflectedRay(GeoPoint gp, Ray ray) {
@@ -124,7 +126,7 @@ public class SimpleRayTracer extends RayTracerBase
         GeoPoint gp = scene.geometries.findClosestIntersection(ray);
 
         // Calculate color contribution considering recursion
-        return (gp == null ? scene.backGround : calcColor(gp, ray, level - 1, kKx)).scale(kX);
+        return (gp == null ? scene.background : calcColor(gp, ray, level - 1, kKx)).scale(kX);
     }
 
     /**
@@ -197,6 +199,20 @@ public class SimpleRayTracer extends RayTracerBase
             return new primitives.Color(Color.BLACK.getColor()); // View from direction opposite to r vector
         }
         return lightIntensity.scale(ks.scale(Math.pow(minusVR, nShininess)));
+    }
+
+    private Double3 transperency(GeoPoint gp,LightSource light, Vector l, Vector n,double nl){
+        Ray lightRay = new Ray( gp.point, l.scale(-1),n);
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
+        //  GeoPoint intersectionPoint=scene.geometries.findClosestIntersection(lightRay);
+
+        Double3 ktr = Double3.ONE;
+        if (intersections == null)
+            return ktr;
+        for (GeoPoint intersection : intersections)
+            if(intersection.point.distance(gp.point)<light.getDistance(gp.point))
+                ktr = ktr.product(intersection.geometry.getMaterial().kT);
+        return ktr;
     }
 
     private boolean unshaded(GeoPoint gp,LightSource light, Vector l, Vector n,double nl){

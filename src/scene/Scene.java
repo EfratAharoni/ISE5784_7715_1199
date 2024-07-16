@@ -31,7 +31,7 @@ public class Scene {
      * @param background the background to set
      * @return the scene
      */
-    public Scene setBackground(Color background) {
+    public Scene setBackGround(Color background) {
         this.background = background;
         return this;
     }

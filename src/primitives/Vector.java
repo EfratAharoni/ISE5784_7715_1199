@@ -9,22 +9,26 @@
  */
 package primitives;
 
+import static primitives.Util.isZero;
 import com.sun.source.tree.ReturnTree;
 
 public class  Vector extends Point {
-    public Vector(double x, double y , double z ) {
+
+    public Vector(double x,double y,double z){
         super(x,y,z);
-        if (xyz.equals(Double3.ZERO)) {
-            throw new IllegalArgumentException("Vector Zero");
-        }
+        if(Double3.ZERO.equals(this.xyz))
+            throw  new IllegalArgumentException("x,y,z can't be 0");
     }
 
     public Vector(Double3 xyz) {
         super(xyz);
-        if (xyz.equals(Double3.ZERO))
-            throw new IllegalArgumentException("Vector can't be zero");
+        if(Double3.ZERO.equals(xyz))
+            throw  new IllegalArgumentException("can't be (0,0,0)");
     }
-    public Vector add(Vector v) {
+
+    public Vector add(Vector v){
+        if(this.equals(v.scale(-1)))
+            throw new IllegalArgumentException("Adding opposite vectors gives the zero vector");
         return new Vector(xyz.add(v.xyz));
     }
 
@@ -103,11 +107,13 @@ public class  Vector extends Point {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        return (obj instanceof Vector other)&& xyz.equals(other.xyz);
+        return (obj instanceof Vector other)
+                && super.equals(other);
     }
+
 
     @Override
     public String toString() {
-        return "Vector " + xyz;
+        return super.toString();
     }
 }

@@ -23,10 +23,10 @@ public class Ray {
     final public Vector direction;
     private static final double DELTA = 0.1;
 
-    public Ray(Point p, Vector v, Vector normalToP){
-        double res = v.dotProduct(normalToP);
-        head = Util.isZero(res) ? p : p.add(normalToP.scale(Util.alignZero(res)<0? -DELTA:DELTA));
-        direction=v.normalize();
+    public Ray(Point p, Vector v, Vector normalToP) {
+        direction = v.normalize();
+        double nv = v.dotProduct(normalToP);
+        head = Util.isZero(nv) ? p : p.add(normalToP.scale(Util.alignZero(nv) < 0 ? -DELTA : DELTA));
     }
 
     /**
@@ -98,7 +98,5 @@ public class Ray {
         }
         return closestPoint;
     }
-
-
 }
 

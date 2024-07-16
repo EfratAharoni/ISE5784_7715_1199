@@ -7,11 +7,9 @@ import primitives.Vector;
 /**
  * The PointLight class represents a point light source in space.
  */
-public class PointLight extends Light implements LightSource
-{
+public class PointLight extends Light implements LightSource {
 
-    private final  Point position;
-    private double narrowBeam = 1;
+    private Point position;
     private double kc = 1;
     private double kl = 0;
     private double kq = 0;
@@ -28,23 +26,14 @@ public class PointLight extends Light implements LightSource
         this.position = position;
     }
 
-    @Override
-    public Color getIntensity(Point p)
-    {
-        double dSquared = p.distanceSquared(position);
-        double d = Math.sqrt(dSquared);
-        return getIntensity().scale(1/(kc + kl * d + kq * dSquared));  // add int
-    }
+//    @Override
+//    public Color getIntensity(Point p)
+//    {
+//        double dSquared = p.distanceSquared(position);
+//        double d = Math.sqrt(dSquared);
+//        return getIntensity().scale(1/(kc + kl * d + kq * dSquared));  // add int
+//    }
 
-    @Override
-    public Vector getL(Point p)
-    {
-        if (p.equals(position))
-        {
-            return null;
-        }
-        return p.subtract(position).normalize();
-    }
 
     /**
      * Sets the constant attenuation coefficient (kc) for the point light.
@@ -82,10 +71,27 @@ public class PointLight extends Light implements LightSource
         return this;
     }
 
-    public PointLight setNarrowBeam(double narrowBeam)
+//    public PointLight setNarrowBeam(double narrowBeam)
+//    {
+//        this.narrowBeam = narrowBeam;
+//        return this;
+//    }
+
+
+    @Override
+    public Vector getL(Point p)
     {
-        this.narrowBeam = narrowBeam;
-        return this;
+        if (p.equals(position))
+        {
+            return null;
+        }
+        return p.subtract(position).normalize();
+    }
+
+    @Override
+    public Color getIntensity(Point p) {
+        double d = position.distance(p);
+        return super.getIntensity().scale(1 / (kc + kl * d + kq * d * d));
     }
 
     @Override

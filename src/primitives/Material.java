@@ -15,7 +15,7 @@ public class Material
     /**
      * The specular reflection coefficient.
      */
-    public Double3 kS = Double3.ZERO;
+    public Double3 kS = Double3.ZERO;//מחוספס
 
     /**
      * Promotes the assumption of transparency (מקדם הנחתה של שקיפות)
@@ -90,8 +90,8 @@ public class Material
      * @param nShininess The shininess value.
      * @return This Material object.
      */
-    public Material setShininess(int nShininess)
-    {
+
+    public Material setNShininess(int nShininess) {
         this.nShininess = nShininess;
         return this;
     }
