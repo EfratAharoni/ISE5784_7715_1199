@@ -34,7 +34,7 @@ public class RenderTests {
     @Test
     public void renderMultiColorTest() {
         scene.geometries.add( // center
-                new Sphere(new Point(0, 0, -100), 50),
+                new Sphere(50,new Point(0, 0, -100)),
                 // up left
                 new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100))
                         .setEmission(new Color(GREEN)),
@@ -59,7 +59,7 @@ public class RenderTests {
      */
     @Test
     public void renderTwoColorTest() {
-        scene.geometries.add(new Sphere( new Point(0, 0, -100),50d),
+        scene.geometries.add(new Sphere( 50d,new Point(0, 0, -100)),
                 new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100)), // up
                 // left
                 new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100),
@@ -67,7 +67,7 @@ public class RenderTests {
                 // left
                 new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))); // down
         scene.setAmbientLight(new AmbientLight(new Color(255, 191, 191), Double3.ONE))
-                .setBackground(new Color(75, 127, 90));
+                .setBackGround(new Color(75, 127, 90));
 
         // right
         camera

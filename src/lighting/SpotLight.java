@@ -71,8 +71,9 @@ public class SpotLight extends PointLight {
         if (l == null)
             return super.getIntensity();
         double directionDotL = Util.alignZero(direction.dotProduct(l));
-        return super.getIntensity(p).scale(directionDotL > 0 ? Math.pow(directionDotL, narrowness) :0); // the denominator from the super!!
-
+        return super.getIntensity(p).scale(directionDotL > 0 ? Math.pow(directionDotL, narrowness) : 0); // the denominator from the super!!
+    }
+}
 //    @Override
 //    public Color getIntensity(Point p)
 //    {
@@ -81,4 +82,3 @@ public class SpotLight extends PointLight {
 //        Color pointlightIntensity = super.getIntensity(p);
 //        return pointlightIntensity.scale(factor);
 //    }
-}

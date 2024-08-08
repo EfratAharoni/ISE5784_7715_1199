@@ -51,7 +51,7 @@ class IntegrationCameraTest {
     void testSphere() {
         //TC01: test sphere with 2 intersections
         Camera camera1=cameraBuilder.setLocation( new Point(0, 0, 0)).setVpDistance(1.00).build();
-        Sphere s1 = new Sphere( new Point(0, 0, -3),1);
+        Sphere s1 = new Sphere( 1,new Point(0, 0, -3));
         int sum1 = sumIntersection(camera1, s1, 3, 3);
 
         assertEquals(2, sum1,
@@ -60,7 +60,7 @@ class IntegrationCameraTest {
 
         //TC02: test sphere with 18 intersections
         Camera camera2 =cameraBuilder.setLocation( new Point(0, 0, 0.5)).setVpDistance(1.00).build();
-        Sphere s2 = new Sphere(new Point(0, 0, -2.5),2.5);
+        Sphere s2 = new Sphere(2.5,new Point(0, 0, -2.5));
         int sum2 = sumIntersection(camera2, s2, 3, 3);
 
         assertEquals(18, sum2,
@@ -68,7 +68,7 @@ class IntegrationCameraTest {
 
 
         //TC03: test sphere with 10 intersections
-        Sphere s3 = new Sphere(new Point(0, 0, -2),2);
+        Sphere s3 = new Sphere(2,new Point(0, 0, -2));
         int sum3 = sumIntersection(camera2, s3, 3, 3);
 
         assertEquals(10, sum3,
@@ -76,14 +76,14 @@ class IntegrationCameraTest {
 
 
         //TC04: test sphere with 9 intersections
-        Sphere s4 = new Sphere(new Point(0, 0, -2),4);
+        Sphere s4 = new Sphere(4,new Point(0, 0, -2));
         int sum4 = sumIntersection(camera2, s4, 3, 3);
 
         assertEquals(9, sum4,
                 "constructRay() and findIntersections() wrong result");
 
         //TC05: test sphere with 0 intersections
-        Sphere s5 = new Sphere(new Point(0, 0, 1),0.5);
+        Sphere s5 = new Sphere(0.5,new Point(0, 0, 1));
         int sum5 = sumIntersection(camera1, s5, 3, 3);
 
         assertEquals(0, sum5,
