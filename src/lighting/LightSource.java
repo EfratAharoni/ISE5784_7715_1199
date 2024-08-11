@@ -26,5 +26,14 @@ public interface LightSource {
      * @return vector direction to light source
      */
     public Vector getL(Point p);
+
     double getDistance(Point point);
+
+    public Point getPosition();
+
+    /**
+     * Get the radius of the light source for soft shadows
+     * @return the radius
+     */
+    public double getRadius();
 }

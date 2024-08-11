@@ -14,7 +14,7 @@ import static primitives.Util.alignZero;
 public class SpotLight extends PointLight {
 
     private Vector direction;
-    private int narrowness = 1;
+    private double narrowness = 1;
 
     /**
      * Constructs a SpotLight object with the specified intensity, position, and
@@ -74,11 +74,3 @@ public class SpotLight extends PointLight {
         return super.getIntensity(p).scale(directionDotL > 0 ? Math.pow(directionDotL, narrowness) : 0); // the denominator from the super!!
     }
 }
-//    @Override
-//    public Color getIntensity(Point p)
-//    {
-//        double projection = alignZero(direction.dotProduct(getL(p)));
-//        double factor = Math.max(0, projection);
-//        Color pointlightIntensity = super.getIntensity(p);
-//        return pointlightIntensity.scale(factor);
-//    }

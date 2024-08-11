@@ -574,8 +574,6 @@ public class Camera implements Cloneable {
             camera.vRight = (camera.vTo.crossProduct(camera.vUp)).normalize();
             return camera.clone();
         }
-
-
     }
 
 

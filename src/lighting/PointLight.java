@@ -13,6 +13,7 @@ public class PointLight extends Light implements LightSource {
     private double kc = 1;
     private double kl = 0;
     private double kq = 0;
+    protected double radius = 1;
 
     /**
      * Constructor for PointLight class.
@@ -77,6 +78,10 @@ public class PointLight extends Light implements LightSource {
 //        return this;
 //    }
 
+    public PointLight setRadius(double radius) {
+        this.radius = radius;
+        return this;
+    }
 
     @Override
     public Vector getL(Point p)
@@ -97,5 +102,18 @@ public class PointLight extends Light implements LightSource {
     @Override
     public double getDistance(Point p) {
         return position.distance(p);
+    }
+
+    /**
+     * @return the radius of the light source
+     */
+    @Override
+    public double getRadius() {
+        return this.radius;
+    }
+
+    @Override
+    public Point getPosition() {
+        return this.position;
     }
 }
