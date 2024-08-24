@@ -111,9 +111,27 @@ public class  Vector extends Point {
                 && super.equals(other);
     }
 
-
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    /**
+     *
+     * Finds orthogonal vector to the current vector.
+     *
+     * @return A new Vector object that is orthogonal to the current vector.
+     */
+    public Vector findOrthogonal() {
+        double x = this.xyz.d1, //
+                y = this.xyz.d2, //
+                z = this.xyz.d3, //
+                absX = Math.abs(x), //
+                absY = Math.abs(y), //
+                absZ = Math.abs(z);
+        if (absX < absY)
+            return absX < absZ ? new Vector(0, -z, y).normalize() : new Vector(-y, x, 0).normalize();
+        else
+            return absY < absZ ? new Vector(z, 0, -x).normalize() : new Vector(-y, x, 0).normalize();
     }
 }

@@ -6,7 +6,13 @@ import scene.Scene;
 import java.util.List;
 import geometries.Intersectable.GeoPoint;
 import static primitives.Util.alignZero;
-
+import static primitives.Util.isZero;
+import primitives.Color;
+import primitives.Double3;
+import primitives.Material;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 /**
  * The SimpleRayTracer class extends RayTracerBase and provides a basic implementation
@@ -31,6 +37,9 @@ public class SimpleRayTracer extends  RayTracerBase {
 
     private boolean softShadows = false;
     private int gridResolution = 1;
+
+    private int nXY = 22;
+    private double distanceGrid = 1;
 
 
     private Double3 softShadows(GeoPoint geopoint, LightSource light, Vector l, Vector n) {
@@ -223,6 +232,26 @@ public class SimpleRayTracer extends  RayTracerBase {
                 ktr = ktr.product(intersection.geometry.getMaterial().kT);
         return ktr;
     }
+
+    private List<Ray> constructTransparencyRays(Point p, Vector v, Vector n, double gd) {
+        Ray transparencyRay = new Ray(p, v, n);
+        if (isZero(gd))
+            return List.of(transparencyRay);
+        return new Blackboard(nXY, transparencyRay, distanceGrid, gd).gridRays();
+        // return gridRays(n, transparencyRay, 1, gd);
+    }
+
+    private List<Ray> constructReflectionRays(Point p, Vector v, Vector n, double gd) {
+        double vn = v.dotProduct(n);
+        if (isZero(vn))
+            return null;
+        Vector reflectionDirection = (v.subtract(n.scale(2 * vn))).normalize();
+        if (isZero(gd))
+            return List.of(new Ray(p, reflectionDirection, n));
+        return new Blackboard(nXY, new Ray(p, reflectionDirection, n), distanceGrid, gd).gridRays();
+
+    }
+
     public SimpleRayTracer setSoftShadows(boolean softShadows) {
         this.softShadows = softShadows;
         return this;
@@ -231,5 +260,14 @@ public class SimpleRayTracer extends  RayTracerBase {
     public SimpleRayTracer setGridResolution(int grid) {
         this.gridResolution = grid;
         return this;
+    }
+
+    public RayTracerBase setDistanceGrid(double distanceGrid) {
+        this.distanceGrid = distanceGrid;
+        return this;
+    }
+
+    public void setNxy(int nXY) {
+        this.nXY = nXY;
     }
 }

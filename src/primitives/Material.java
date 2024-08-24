@@ -27,12 +27,27 @@ public class Material
      */
     public Double3 kR = Double3.ZERO;
 
+    /** Size of glossy and diffused grid */
+    public double gD=0;
+
     /**
      * The shininess of the material.
      */
     public int nShininess = 0;
 
+
+
     // ***************** setters builder pattern ********************** //
+
+    /**
+     * Sets the size of glossy and diffused grid.
+     * @param gd the size of glossy and diffused grid
+     * @return The Material object itself (for method chaining)
+     */
+    public Material setGd(double gd) {
+        this.gD = gd;
+        return this;
+    }
 
     /**
      * Sets the diffuse reflection coefficient (kD) to the specified value.

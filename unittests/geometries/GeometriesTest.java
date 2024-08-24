@@ -13,7 +13,7 @@ class GeometriesTest {
      */
     @Test
     void testfindIntersections() {
-        Geometries geometries = new Geometries(new Plane(new Point(4,0,0),new Point(0,4,0), new Point(0,-4,0)),new Sphere(1,new Point(0,0,4)), new Triangle(new Point(4,0,1),new Point(0,4,1), new Point(0,-4,1)));
+        Geometries geometries = new Geometries(new Plane(new Point(4,0,0),new Point(0,4,0), new Point(0,-4,0)),new Sphere(new Point(0,0,4), 1), new Triangle(new Point(4,0,1),new Point(0,4,1), new Point(0,-4,1)));
         // ============ Equivalence Partitions Tests ==============
 
         // TC01: Ray intersects shapes not every one (2 bodies)

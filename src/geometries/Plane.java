@@ -70,4 +70,25 @@ public class Plane extends Geometry {
         double t = alignZero((normal.dotProduct((p.subtract(ray.getHead())))) / (nv));
         return t <= 0 || Util.alignZero(t - maxDistance) >= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
     }
+
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        // get ray point and vector
+        Point pray = ray.getHead();
+        Vector v = ray.getDirection();
+
+        // check if the ray is parallel to the plane
+        if (isZero(normal.dotProduct(v))) // if dotProduct = 0
+            return null;
+
+        try {
+            double t = alignZero((normal.dotProduct(p.subtract(pray))) / (normal.dotProduct(v)));
+            // if the the ray starts on the plane or doesn't cross the plane - return null
+            return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
+
+        } catch (IllegalArgumentException ex) {
+            // if p.subtract(p0ray) is vector zero, if p0ray=p0
+            return null;
+        }
+    }
 }

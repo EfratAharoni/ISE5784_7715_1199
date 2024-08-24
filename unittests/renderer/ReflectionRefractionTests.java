@@ -13,7 +13,8 @@ import lighting.AmbientLight;
 import lighting.SpotLight;
 import primitives.*;
 import scene.Scene;
-
+import geometries.Plane;
+import lighting.DirectionalLight;
 
 /** Tests for reflection and transparency functionality, test for partial
  * shadows
@@ -33,9 +34,9 @@ public class ReflectionRefractionTests {
    @Test
    public void twoSpheres() {
       scene.geometries.add(
-              new Sphere(50d, new Point(0, 0, -50)).setEmission(new Color(BLUE))
+              new Sphere(new Point(0, 0, -50) ,50d ).setEmission(new Color(BLUE))
                       .setMaterial(new Material().setKd(0.4).setKs(0.3).setNShininess(100).setKT(0.3)),
-              new Sphere(25d, new Point(0, 0, -50)).setEmission(new Color(RED))
+              new Sphere(new Point(0, 0, -50), 25d).setEmission(new Color(RED))
                       .setMaterial(new Material().setKd(0.5).setKs(0.5).setNShininess(100)));
       scene.lights.add(
               new SpotLight(new Color(1000, 600, 0), new Point(-100, -100, 500), new Vector(-1, -1, -2))
@@ -55,10 +56,10 @@ public class ReflectionRefractionTests {
    @Test
    public void twoSpheresOnMirrors() {
       scene.geometries.add(
-              new Sphere(400d, new Point(-950, -900, -1000)).setEmission(new Color(0, 50, 100))
+              new Sphere( new Point(-950, -900, -1000), 400d).setEmission(new Color(0, 50, 100))
                       .setMaterial(new Material().setKd(0.25).setKs(0.25).setNShininess(20)
                               .setKT(new Double3(0.5, 0, 0))),
-              new Sphere(200d, new Point(-950, -900, -1000)).setEmission(new Color(100, 50, 20))
+              new Sphere( new Point(-950, -900, -1000), 200d).setEmission(new Color(100, 50, 20))
                       .setMaterial(new Material().setKd(0.25).setKs(0.25).setNShininess(20)),
               new Triangle(new Point(1500, -1500, -1500), new Point(-1500, 1500, -1500),
                       new Point(670, 670, 3000))
@@ -93,7 +94,7 @@ public class ReflectionRefractionTests {
                       .setMaterial(new Material().setKd(0.5).setKs(0.5).setNShininess(60)),
               new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75, 75, -150))
                       .setMaterial(new Material().setKd(0.5).setKs(0.5).setNShininess(60)),
-              new Sphere(30d, new Point(60, 50, -50)).setEmission(new Color(BLUE))
+              new Sphere( new Point(60, 50, -50), 30d).setEmission(new Color(BLUE))
                       .setMaterial(new Material().setKd(0.2).setKs(0.2).setNShininess(30).setKT(0.6)));
       scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
       scene.lights.add(
@@ -125,25 +126,25 @@ public class ReflectionRefractionTests {
       // Adding a sphere to the scene
 
       scene.geometries.add(
-              new Sphere( 30d,new Point(-100, 0, 100))
+              new Sphere( new Point(-100, 0, 100), 30d)
                       .setEmission(new Color(yellow))
                       .setMaterial(new Material().setKd(0.4).setKs(0.8).setNShininess(100))
       );
 
       scene.geometries.add(
-              new Sphere( 10d,new Point(100, 0, 100))
+              new Sphere( new Point(100, 0, 100), 10d)
                       .setEmission(new Color(WHITE))
                       .setMaterial(new Material().setKd(0.4).setKs(0.8).setNShininess(100))
       );
 
       scene.geometries.add(
-              new Sphere( 10d,new Point(80, 0, 100))
+              new Sphere( new Point(80, 0, 100), 10d)
                       .setEmission(new Color(WHITE))
                       .setMaterial(new Material().setKd(0.4).setKs(0.8).setNShininess(100))
       );
 
       scene.geometries.add(
-              new Sphere( 10d,new Point(90, 0, 115))
+              new Sphere( new Point(90, 0, 115), 10d)
                       .setEmission(new Color(WHITE))
                       .setMaterial(new Material().setKd(0.4).setKs(0.8).setNShininess(100))
       );
@@ -165,7 +166,7 @@ public class ReflectionRefractionTests {
       // Adding the center of the flower
       Point flowerCenterPosition = new Point(flowerXOffset, flowerYOffset, flowerZOffset + flowerCenterRadius);
       scene.geometries.add(
-              new Sphere( flowerCenterRadius,flowerCenterPosition)
+              new Sphere( flowerCenterPosition, flowerCenterRadius)
                       .setEmission(flowerCenterColor)
                       .setMaterial(new Material().setKd(0.5).setKs(0.5).setNShininess(30))
       );
@@ -179,7 +180,7 @@ public class ReflectionRefractionTests {
          Point petalPosition = new Point(petalX, petalY, petalZ);
 
          scene.geometries.add(
-                 new Sphere( petalRadius,petalPosition)
+                 new Sphere( petalPosition, petalRadius)
                          .setEmission(petalColor)
                          .setMaterial(new Material().setKd(0.5).setKs(0.5).setNShininess(30))
          );
@@ -195,7 +196,7 @@ public class ReflectionRefractionTests {
          Point stemPosition = new Point(stemX, stemY, stemZ);
 
          scene.geometries.add(
-                 new Sphere( 1.5,stemPosition) // Radius of the stem segment
+                 new Sphere( stemPosition, 1.5) // Radius of the stem segment
                          .setEmission(stemColor)
                          .setMaterial(new Material().setKd(0.5).setKs(0.5).setNShininess(30))
          );
@@ -239,19 +240,19 @@ public class ReflectionRefractionTests {
 
       // Adding a sphere to the scene
       scene.geometries.add(
-              new Sphere( 30d,new Point(0, 0, 30))
+              new Sphere( new Point(0, 0, 30), 30d)
                       .setEmission(new Color(80, 80, 200))
                       .setMaterial(new Material().setKd(0.4).setKs(0.8).setNShininess(100))
       );
 
       scene.geometries.add(
-              new Sphere( 30d,new Point(-100, 0, 30))
+              new Sphere( new Point(-100, 0, 30), 30d)
                       .setEmission(new Color(yellow))
                       .setMaterial(new Material().setKd(0.4).setKs(0.8).setNShininess(100))
       );
 
       scene.geometries.add(
-              new Sphere( 30d,new Point(100, 0, 30))
+              new Sphere( new Point(100, 0, 30),30d)
                       .setEmission(new Color(red))
                       .setMaterial(new Material().setKd(0.4).setKs(0.8).setNShininess(100))
       );

@@ -3,9 +3,11 @@ package scene;
 import java.util.LinkedList;
 import java.util.List;
 import geometries.Geometries;
+import geometries.Intersectable;
 import lighting.AmbientLight;
 import lighting.LightSource;
 import primitives.Color;
+
 
 
 public class Scene {
@@ -23,6 +25,7 @@ public class Scene {
      */
     public Scene(String name) {
         this.name = name;
+        Intersectable.createCBR(false);
     }
 
     /**
@@ -66,6 +69,26 @@ public class Scene {
      */
     public Scene setlights(List<LightSource> lights) {
         this.lights = lights;
+        return this;
+    }
+
+    /**
+     * Sets Conservative Bounding Region for creating the scene
+     *
+     * @return the Scene object itself (for method chaining)
+     */
+    public Scene setCBR() {
+        Intersectable.createCBR(true);
+        return this;
+    }
+
+    /**
+     * Creates Bounding Volume Hierarchy in the scene
+     *
+     * @return the Scene object itself (for method chaining)
+     */
+    public Scene setBVH() {
+        geometries.createBVH();
         return this;
     }
 

@@ -2,6 +2,7 @@ package geometries;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 import primitives.Point;
@@ -47,6 +48,8 @@ public class Polygon extends Geometry {
          throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
       this.vertices = List.of(vertices);
       size          = vertices.length;
+      if (cbr)
+         createBox();// build the box
 
       // Generate the plane according to the first three vertices and associate the
       // polygon with this plane.
@@ -86,5 +89,61 @@ public class Polygon extends Geometry {
    @Override
    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
       return null;
+   }
+
+   @Override
+   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+      List<GeoPoint> intersections = plane.findGeoIntersections(ray);
+      if (intersections == null)
+         return null;
+
+      Point p0 = ray.getHead();
+      Vector v = ray.getDirection();
+
+      Vector v1 = vertices.get(1).subtract(p0);
+      Vector v2 = vertices.get(0).subtract(p0);
+      double sign = v.dotProduct(v1.crossProduct(v2));
+      if (isZero(sign))
+         return null;// ray contain in the plane of v1,v2
+      boolean positive = sign > 0;
+
+      for (int i = vertices.size() - 1; i > 0; --i) {
+         v1 = v2;
+         v2 = vertices.get(i).subtract(p0);
+         sign = alignZero(v.dotProduct(v1.crossProduct(v2)));
+         if (sign == 0)
+            return null;
+         if (positive != (sign > 0))
+            return null;
+      }
+      for (GeoPoint geo : intersections)
+         geo.geometry = this;
+      return intersections;
+   }
+
+   /**
+    * Creates the Box of the polygon according to its vertices
+    *
+    */
+   private void createBox() {
+      box = new Box();
+      // Adjust the size of the box according to the vertices
+      for (Point v : vertices) {
+         double x = v.getX();
+         double y = v.getY();
+         double z = v.getZ();
+         if ( x < box.minX)
+            box.minX = x;
+         if (x > box.maxX)
+            box.maxX = x;
+         if (y < box.minY)
+            box.minY = y;
+         if (y > box.maxY)
+            box.maxY = y;
+         if (z < box.minZ)
+            box.minZ = z;
+         if (z > box.maxZ)
+            box.maxZ = z;
+      }
    }
 }
